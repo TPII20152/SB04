@@ -8,6 +8,10 @@ public class ContaImposto extends ContaAbstrata {
 	}
 
 	public void debitar(double valor) {
-		this.saldo = this.saldo - (valor + (valor * 0.001));
+		if(valor > 0){
+			this.saldo = this.saldo - (valor + (valor * 0.001));
+		}
+		else
+			throw new IllegalArgumentException();
 	}
 }
