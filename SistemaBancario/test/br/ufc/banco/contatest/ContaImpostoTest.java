@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.ufc.banco.conta.ContaImposto;
+import br.ufc.banco.conta.excecoes.VNException;
 
 public class ContaImpostoTest {
 
@@ -21,13 +22,13 @@ public class ContaImpostoTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testDebitarNegativo() {
+	public void testDebitarNegativo() throws VNException {
 		this.contaImposto.creditar(1000);
 		this.contaImposto.debitar(-100);
 	}
 	
 	@Test
-	public void testDebitarNormal() {
+	public void testDebitarNormal() throws VNException {
 		this.contaImposto.creditar(1000);
 		this.contaImposto.debitar(100);
 		assertEquals(899.9, this.contaImposto.obterSaldo(), 0);

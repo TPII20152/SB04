@@ -7,6 +7,7 @@ import br.ufc.banco.conta.Conta;
 import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.conta.ContaEspecial;
 import br.ufc.banco.conta.ContaPoupanca;
+import br.ufc.banco.conta.excecoes.VNException;
 import br.ufc.banco.dados.VectorContas;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
@@ -15,7 +16,7 @@ public class TAABB24H {
 
 	private static Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws VNException {
 		BancoBrasil banco = new BancoBrasil(new VectorContas());
 		boolean loop = true;
 		while (loop) {

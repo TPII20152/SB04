@@ -1,6 +1,7 @@
 package br.ufc.banco.conta;
 
 import br.ufc.banco.conta.excecoes.SIException;
+import br.ufc.banco.conta.excecoes.VNException;
 
 
 public abstract class ContaAbstrata {
@@ -13,11 +14,15 @@ public abstract class ContaAbstrata {
 		saldo = 0;
 	}
 
-	public void creditar(double valor) {
-		saldo = saldo + valor;
+	public void creditar(double valor) throws VNException {
+		if (valor > 0){
+			this.saldo = this.saldo + valor;
+		}else{	
+			throw new VNException(valor);
+		}	
 	}
 
-	public abstract void debitar(double valor) throws SIException;
+	public abstract void debitar(double valor) throws SIException,VNException;
 
 	public String obterNumero() {
 		return numero;

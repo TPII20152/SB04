@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.ufc.banco.conta.ContaPoupanca;
+import br.ufc.banco.conta.excecoes.VNException;
 
 public class ContaPoupancaTest {
 
@@ -21,7 +22,7 @@ public class ContaPoupancaTest {
 	}
 
 	@Test
-	public void testRendeJuros() {
+	public void testRendeJuros() throws VNException {
 		this.poupanca.creditar(100);
 		this.poupanca.rendeJuros(0.01);
 		assertEquals(101, this.poupanca.obterSaldo(), 0);

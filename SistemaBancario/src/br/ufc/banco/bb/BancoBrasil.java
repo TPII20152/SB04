@@ -6,6 +6,7 @@ import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.conta.ContaEspecial;
 import br.ufc.banco.conta.ContaPoupanca;
 import br.ufc.banco.conta.excecoes.SIException;
+import br.ufc.banco.conta.excecoes.VNException;
 import br.ufc.banco.dados.IRepositorioContas;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
@@ -28,7 +29,7 @@ public class BancoBrasil {
 		this.repositorio.apagar(numero);
 	}
 
-	public void creditar(String numConta, double valor) throws TNRException {
+	public void creditar(String numConta, double valor) throws TNRException, VNException {
 		ContaAbstrata conta = this.repositorio.procurar(numConta);
 		if (conta != null) {
 			conta.creditar(valor);
@@ -38,7 +39,7 @@ public class BancoBrasil {
 
 	}
 
-	public void debitar(String numConta, double valor) throws TNRException {
+	public void debitar(String numConta, double valor) throws TNRException, VNException {
 		ContaAbstrata conta = this.repositorio.procurar(numConta);
 		if (conta != null) {
 			try {
@@ -62,7 +63,7 @@ public class BancoBrasil {
 	}
 
 	public void transferir(String numOrigem, String numDestino, double valor)
-			throws TNRException {
+			throws TNRException, VNException {
 		ContaAbstrata contaOrigem = this.repositorio.procurar(numOrigem);
 		if (contaOrigem != null) {
 			ContaAbstrata contaDestino = this.repositorio.procurar(numDestino);
@@ -82,7 +83,7 @@ public class BancoBrasil {
 
 	}
 
-	public void renderJuros(String numConta) throws TNRException {
+	public void renderJuros(String numConta) throws TNRException, VNException {
 		ContaAbstrata contaAuxiliar = this.repositorio.procurar(numConta);
 		if (contaAuxiliar != null) {
 			if (contaAuxiliar instanceof ContaPoupanca) {
@@ -95,7 +96,7 @@ public class BancoBrasil {
 		}
 	}
 
-	public void renderBonus(String numConta) throws TNRException {
+	public void renderBonus(String numConta) throws TNRException, VNException {
 		ContaAbstrata contaAuxiliar = this.repositorio.procurar(numConta);
 		if (contaAuxiliar != null) {
 			if (contaAuxiliar instanceof ContaEspecial) {

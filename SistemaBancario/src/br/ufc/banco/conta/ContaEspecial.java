@@ -1,5 +1,7 @@
 package br.ufc.banco.conta;
 
+import br.ufc.banco.conta.excecoes.VNException;
+
 public class ContaEspecial extends Conta {
 
 	private double bonus;
@@ -9,7 +11,7 @@ public class ContaEspecial extends Conta {
 		bonus = 0;
 	}
 
-	public void rendeBonus() {
+	public void rendeBonus() throws VNException {
 		super.creditar(bonus);
 		bonus = 0;
 	}
@@ -18,7 +20,7 @@ public class ContaEspecial extends Conta {
 		return bonus;		
 	}
 
-	public void creditar(double valor) {
+	public void creditar(double valor) throws VNException {
 		bonus = bonus + (valor * 0.01);
 		super.creditar(valor);
 	}
