@@ -9,7 +9,6 @@ import br.ufc.banco.dados.excecoes.CIException;
 public class ArrayContas implements IRepositorioContas {
 
 	private ArrayList<ContaAbstrata> contas;
-	//private int indice = 0;
 
 	public ArrayContas() {
 		this.contas = new ArrayList<ContaAbstrata>();
