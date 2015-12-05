@@ -1,5 +1,9 @@
 package br.ufc.banco.dados;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 import br.ufc.banco.conta.ContaAbstrata;
@@ -57,5 +61,12 @@ public class VectorContas implements IRepositorioContas {
 			}
 		}
 		return null;
+	}
+	
+	public void persistir() throws IOException {
+		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents");
+		ObjectOutputStream out = new ObjectOutputStream(outFile);
+		out.writeObject(this.contas);
+		out.close();
 	}
 }

@@ -1,5 +1,7 @@
 package br.ufc.banco.dados;
 
+import java.io.IOException;
+
 import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
@@ -15,4 +17,6 @@ public interface IRepositorioContas {
 	public ContaAbstrata[] listar();
 
 	public int numeroContas();
+	
+	public void persistir() throws IOException;
 }
