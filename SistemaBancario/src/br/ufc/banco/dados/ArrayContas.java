@@ -60,7 +60,7 @@ public class ArrayContas implements IRepositorioContas {
 	}
 	
 	public void persistir() throws IOException {
-		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents");
+		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "contas.tmp");
 		ObjectOutputStream out = new ObjectOutputStream(outFile);
 		out.writeObject(this.contas);
 		out.close();
