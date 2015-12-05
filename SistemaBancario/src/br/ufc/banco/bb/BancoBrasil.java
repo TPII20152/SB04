@@ -1,5 +1,10 @@
 package br.ufc.banco.bb;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import br.ufc.banco.bb.excecoes.TCIException;
 import br.ufc.banco.bb.excecoes.TNRException;
 import br.ufc.banco.conta.ContaAbstrata;
@@ -8,6 +13,7 @@ import br.ufc.banco.conta.ContaPoupanca;
 import br.ufc.banco.conta.excecoes.SIException;
 import br.ufc.banco.conta.excecoes.VNException;
 import br.ufc.banco.dados.IRepositorioContas;
+import br.ufc.banco.dados.VectorContas;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
@@ -123,4 +129,18 @@ public class BancoBrasil {
 		}
 		return saldo;
 	}
+	
+	public void persistir() throws IOException{
+		repositorio.persistir();
+		System.out.println("Contas persistidas");
+	}
+	
+	public void desserializar() throws IOException, ClassNotFoundException {
+		FileInputStream inFile = new FileInputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "VectorContas.tmp");
+		ObjectInputStream in = new ObjectInputStream(inFile);
+		Object contas = in.readObject();
+		in.close();
+		repositorio = (repositorio.getClass()) contas;
+	}
+
 }
