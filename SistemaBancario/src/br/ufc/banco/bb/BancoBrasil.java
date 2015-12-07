@@ -12,6 +12,7 @@ import br.ufc.banco.conta.ContaEspecial;
 import br.ufc.banco.conta.ContaPoupanca;
 import br.ufc.banco.conta.excecoes.SIException;
 import br.ufc.banco.conta.excecoes.VNException;
+import br.ufc.banco.dados.ArrayContas;
 import br.ufc.banco.dados.IRepositorioContas;
 import br.ufc.banco.dados.VectorContas;
 import br.ufc.banco.dados.excecoes.CEException;
@@ -138,9 +139,15 @@ public class BancoBrasil {
 	public void desserializar() throws IOException, ClassNotFoundException {
 		FileInputStream inFile = new FileInputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "VectorContas.tmp");
 		ObjectInputStream in = new ObjectInputStream(inFile);
-		Object contas = in.readObject();
-		in.close();
-		repositorio = (repositorio.getClass()) contas;
+		if(this.repositorio instanceof VectorContas){
+			repositorio = (VectorContas)in.readObject();
+			System.out.println("VectorContas adicionado");
+		}
+		if(this.repositorio instanceof ArrayContas){
+			repositorio = (ArrayContas)in.readObject();
+			System.out.println("ArrayContas Adicionado");
+		}
+		
 	}
 
 }
