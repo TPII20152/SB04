@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
-public class ArrayContas implements IRepositorioContas {
+public class ArrayContas implements IRepositorioContas, Serializable {
 
 	private ArrayList<ContaAbstrata> contas;
 
@@ -62,7 +63,7 @@ public class ArrayContas implements IRepositorioContas {
 	public void persistir() throws IOException {
 		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "ArrayContas.tmp");
 		ObjectOutputStream out = new ObjectOutputStream(outFile);
-		out.writeObject(this.contas);
+		out.writeObject(this);
 		out.close();
 	}
 

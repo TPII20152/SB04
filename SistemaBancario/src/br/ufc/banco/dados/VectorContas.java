@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Vector;
 
 import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
-public class VectorContas implements IRepositorioContas {
+public class VectorContas implements IRepositorioContas, Serializable{
 
 	private Vector<ContaAbstrata> contas = null;
 
@@ -28,7 +29,7 @@ public class VectorContas implements IRepositorioContas {
 	}
 
 	public void inserir(ContaAbstrata conta) throws CEException {
-		if (this.procurar(conta.obterNumero()) != null) {
+		if (this.procurar(conta.obterNumero()) == null) { //Aqui tinha um erro. Se 
 			this.contas.addElement(conta);
 		} else {
 			throw new CEException(conta.obterNumero());
@@ -66,7 +67,7 @@ public class VectorContas implements IRepositorioContas {
 	public void persistir() throws IOException {
 		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "VectorContas.tmp");
 		ObjectOutputStream out = new ObjectOutputStream(outFile);
-		out.writeObject(this.contas);
+		out.writeObject(this);
 		out.close();
 	}
 

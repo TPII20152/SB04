@@ -1,10 +1,12 @@
 package br.ufc.banco.conta;
 
+import java.io.Serializable;
+
 import br.ufc.banco.conta.excecoes.SIException;
 import br.ufc.banco.conta.excecoes.VNException;
 
 
-public abstract class ContaAbstrata {
+public abstract class ContaAbstrata implements Serializable{
 
 	protected String numero;
 	protected double saldo;
