@@ -2,6 +2,7 @@ package br.ufc.banco.conta;
 
 import br.ufc.banco.conta.excecoes.SIException;
 
+@SuppressWarnings("serial")
 public class ContaImposto extends ContaAbstrata {
 
 	public ContaImposto(String numero) {

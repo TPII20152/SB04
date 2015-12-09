@@ -2,6 +2,7 @@ package br.ufc.banco.conta;
 
 import br.ufc.banco.conta.excecoes.VNException;
 
+@SuppressWarnings("serial")
 public class ContaEspecial extends Conta {
 
 	private double bonus;
