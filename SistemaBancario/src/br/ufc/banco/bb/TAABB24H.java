@@ -9,7 +9,7 @@ import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.conta.ContaEspecial;
 import br.ufc.banco.conta.ContaPoupanca;
 import br.ufc.banco.conta.excecoes.VNException;
-import br.ufc.banco.dados.VectorContas;
+import br.ufc.banco.dados.ArrayContas;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
@@ -18,7 +18,7 @@ public class TAABB24H {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) throws VNException, IOException, ClassNotFoundException {
-		BancoBrasil banco = new BancoBrasil(new VectorContas());
+		BancoBrasil banco = new BancoBrasil(new ArrayContas());
 		boolean loop = true;
 		while (loop) {
 			switch (menu()) {
@@ -142,19 +142,6 @@ public class TAABB24H {
 				}
 				break;
 
-			case 9:
-				switch(menuPersistencia()){
-					case 1:
-						banco.persistir();
-						break;
-					case 2:
-						banco.desserializar();
-						break;
-					default:
-						break;
-				}
-				break;
-
 			case 10:
 				System.out.print("Tenha um bom dia!!!");
 				loop = false;
@@ -181,7 +168,6 @@ public class TAABB24H {
 		System.out.println(" [6] Remover Conta");
 		System.out.println(" [7] Render Juros");
 		System.out.println(" [8] Render Bonus");
-		System.out.println(" [9] Persistencia");
 		System.out.println(" [10] Sair");
 		System.out.println("================================");
 		System.out.print("Digite a opção desejada: ");
@@ -202,15 +188,4 @@ public class TAABB24H {
 		return scanner.nextInt();
 	}
 	
-	private static int menuPersistencia() {
-		System.out.println("================================");
-		System.out.println("Opcoes de Persistencia");
-		System.out.println("================================");
-		System.out.println(" [1] Serializar contas");
-		System.out.println(" [2] Desserializar contas");
-		System.out.println("================================");
-		System.out.print("Digite a opção desejada: ");
-		return scanner.nextInt();
-	}
-
 }

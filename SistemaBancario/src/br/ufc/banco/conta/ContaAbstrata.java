@@ -6,6 +6,7 @@ import br.ufc.banco.conta.excecoes.SIException;
 import br.ufc.banco.conta.excecoes.VNException;
 
 
+@SuppressWarnings("serial")
 public abstract class ContaAbstrata implements Serializable{
 
 	protected String numero;

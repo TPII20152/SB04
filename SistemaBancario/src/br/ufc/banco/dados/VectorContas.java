@@ -11,6 +11,7 @@ import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
+@SuppressWarnings("serial")
 public class VectorContas implements IRepositorioContas, Serializable{
 
 	private Vector<ContaAbstrata> contas = null;
