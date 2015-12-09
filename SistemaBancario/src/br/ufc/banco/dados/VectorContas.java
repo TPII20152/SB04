@@ -12,11 +12,6 @@ import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
 public class VectorContas implements IRepositorioContas, Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	private Vector<ContaAbstrata> contas = null;
 
