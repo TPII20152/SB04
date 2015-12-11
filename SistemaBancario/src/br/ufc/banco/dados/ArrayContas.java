@@ -32,39 +32,23 @@ private ArrayList<ContaAbstrata> contas;
 	}
 
 	public void apagar(String numero) throws CIException {
-		
-        try {
-            this.desserializar();
-        } catch (Exception ex) {
-            System.err.println("Falha ao deserializar! - " + ex.toString());
-        }
-
 		if (this.procurar(numero) != null) {
-			for (ContaAbstrata c: contas){
-				if(c.obterNumero()==numero)
-					contas.remove(c);
-			}
-			try {
-				this.serializar();
-			} catch (Exception ex) {
-				System.err.println("Falha ao serializar! - " + ex.toString());
-			}		
+				contas.remove(this.procurar(numero));
+				try {
+					this.serializar();
+				} catch (Exception ex) {
+					System.err.println("Falha ao serializar! - " + ex.toString());
+				}	
 		} else 
 			throw new CIException(numero);
 	}
 
 	public void inserir(ContaAbstrata conta) throws CEException {
-		try {
-			this.desserializar();
-	    } catch (Exception ex) {
-	        System.err.println("Falha ao deserializar! - " + ex.toString());
-	    }
-		
 		if (this.procurar(conta.obterNumero()) == null) {
 			this.contas.add(conta);
 			
 			try {
-				s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
+				this.serializar();
 			} catch (Exception ex) {
 				System.err.println("Falha ao serializar! - " + ex.toString());
 			}
