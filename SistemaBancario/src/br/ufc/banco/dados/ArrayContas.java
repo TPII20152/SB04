@@ -17,78 +17,61 @@ private ArrayList<ContaAbstrata> contas;
 	Serializador s = new Serializador();
 	Deserializador d = new Deserializador();
 
-	@SuppressWarnings("unchecked")
 	public ArrayContas() {
 		this.contas = new ArrayList<ContaAbstrata>();
-		
 		try {
-            contas = null;
-            contas = (ArrayList<ContaAbstrata>) d.deserializar("/home/362974/rep/SistemaBancario/persContas/pers.txt");
+			this.desserializar();
         } catch (Exception ex) {
             System.err.println("Falha ao deserializar! - " + ex.toString());
-       
 	        try {
-				 s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
-			 } catch (Exception ex1) {
+	        	this.serializar();
+	        } catch (Exception ex1) {
 				 System.err.println("Falha ao serializar! - " + ex1.toString());
 			 }
         }
-		
-		 
 	}
 
-	
-	@SuppressWarnings("unchecked")
 	public void apagar(String numero) throws CIException {
 		
         try {
-            contas = null;
-            contas = (ArrayList<ContaAbstrata>) d.deserializar("/home/362974/rep/SistemaBancario/persContas/pers.txt");
+            this.desserializar();
         } catch (Exception ex) {
             System.err.println("Falha ao deserializar! - " + ex.toString());
         }
 
 		if (this.procurar(numero) != null) {
 			for (ContaAbstrata c: contas){
-				if(c.obterNumero()==numero){
+				if(c.obterNumero()==numero)
 					contas.remove(c);
-				}
 			}
-			 try {
-				 s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
-			 } catch (Exception ex) {
-				 System.err.println("Falha ao serializar! - " + ex.toString());
-			 }	
-			
-			
-		} else {
+			try {
+				this.serializar();
+			} catch (Exception ex) {
+				System.err.println("Falha ao serializar! - " + ex.toString());
+			}		
+		} else 
 			throw new CIException(numero);
-		}	
 	}
 
-	@SuppressWarnings("unchecked")
 	public void inserir(ContaAbstrata conta) throws CEException {
-		 try {
-	            contas = null;
-	            contas = (ArrayList<ContaAbstrata>) d.deserializar("/home/362974/rep/SistemaBancario/persContas/pers.txt");
-	        } catch (Exception ex) {
-	            System.err.println("Falha ao deserializar! - " + ex.toString());
-	        }
+		try {
+			this.desserializar();
+	    } catch (Exception ex) {
+	        System.err.println("Falha ao deserializar! - " + ex.toString());
+	    }
 		
 		if (this.procurar(conta.obterNumero()) == null) {
 			this.contas.add(conta);
 			
-			 try {
-				 s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
-			 } catch (Exception ex) {
-				 System.err.println("Falha ao serializar! - " + ex.toString());
-			 }
+			try {
+				s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
+			} catch (Exception ex) {
+				System.err.println("Falha ao serializar! - " + ex.toString());
+			}
 			 
-		} else {
+		} else 
 			throw new CEException(conta.obterNumero());
-		}
 	}
-
 
 	public ContaAbstrata[] listar() {
 		
@@ -105,13 +88,22 @@ private ArrayList<ContaAbstrata> contas;
 		 
 		if (this.contas.size() > 0) {
 			for (ContaAbstrata c: contas) {
-				if (c!= null && c.obterNumero().equals(numero)) {
+				if (c!= null && c.obterNumero().equals(numero)) 
 					return c;
-				}
 			}
 		}
-		 
 		return null;
+	}
+	
+	public void serializar() throws Exception{
+    	//s.serializar("/home/362974/rep/SistemaBancario/persContas/pers.txt", contas);
+		s.serializar("C:/Users/Talles/Documents/git/BugConta/SistemaBancario/persContas/pers.txt", contas);
+	}
+	@SuppressWarnings("unchecked")
+	public void desserializar() throws Exception{
+        contas = null;
+        //contas = (ArrayList<ContaAbstrata>) d.deserializar("/home/362974/rep/SistemaBancario/persContas/pers.txt");
+        contas = (ArrayList<ContaAbstrata>) d.deserializar("C:/Users/Talles/Documents/git/BugConta/SistemaBancario/persContas/pers.txt");
 	}
 }
 

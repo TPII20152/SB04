@@ -18,5 +18,7 @@ public interface IRepositorioContas {
 
 	public int numeroContas();
 	
+	public void serializar() throws Exception;
 	
+	public void desserializar() throws Exception;
 }

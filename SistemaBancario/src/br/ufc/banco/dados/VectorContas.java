@@ -72,4 +72,16 @@ public class VectorContas implements IRepositorioContas, Serializable{
 		out.close();
 	}
 
+	@Override
+	public void serializar() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void desserializar() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
