@@ -1,11 +1,15 @@
 package br.ufc.banco.dados;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Vector;
+
+import com.thoughtworks.xstream.XStream;
 
 import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
@@ -74,14 +78,14 @@ public class VectorContas implements IRepositorioContas, Serializable{
 
 	@Override
 	public void serializar() throws Exception {
-		// TODO Auto-generated method stub
-		
+		XStream xstream = new XStream();
+		xstream.toXML(contas, new FileOutputStream("C:/Users/Talles/Documents/pers.txt"));
 	}
 
 	@Override
 	public void desserializar() throws Exception {
-		// TODO Auto-generated method stub
-		
+		XStream xstream = new XStream();
+		contas = (Vector) xstream.fromXML(new FileInputStream("C:/Users/Talles/Documents/pers.txt"));
 	}
 
 }
