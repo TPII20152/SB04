@@ -1,12 +1,8 @@
 package br.ufc.banco.dados;
 
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Vector;
 
 import com.thoughtworks.xstream.XStream;
@@ -15,19 +11,29 @@ import br.ufc.banco.conta.ContaAbstrata;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
 
-@SuppressWarnings("serial")
-public class VectorContas implements IRepositorioContas, Serializable{
+public class VectorContas implements IRepositorioContas{
 	
 	private Vector<ContaAbstrata> contas = null;
-
-	public VectorContas() {
+	XStream xstream = new XStream();
+	
+	public VectorContas() throws Exception {
 		this.contas = new Vector<ContaAbstrata>();
+		try {
+			this.desserializar();
+		} catch (Exception e) {
+			this.serializar();
+		}
 	}
 
 	public void apagar(String numero) throws CIException {
 		ContaAbstrata conta = this.procurar(numero);
 		if (conta != null) {
 			this.contas.remove(conta);
+			try {
+				this.serializar();
+			} catch (Exception e) {
+
+			}
 		} else {
 			throw new CIException(numero);
 		}
@@ -36,6 +42,11 @@ public class VectorContas implements IRepositorioContas, Serializable{
 	public void inserir(ContaAbstrata conta) throws CEException {
 		if (this.procurar(conta.obterNumero()) == null) { //Aqui tinha um erro. Se 
 			this.contas.addElement(conta);
+			try {
+				this.serializar();
+			} catch (Exception e) {
+				
+			}
 		} else {
 			throw new CEException(conta.obterNumero());
 		}
@@ -68,24 +79,15 @@ public class VectorContas implements IRepositorioContas, Serializable{
 		}
 		return null;
 	}
-	
-	public void persistir() throws IOException {
-		FileOutputStream outFile = new FileOutputStream(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "VectorContas.tmp");
-		ObjectOutputStream out = new ObjectOutputStream(outFile);
-		out.writeObject(this);
-		out.close();
-	}
 
 	@Override
 	public void serializar() throws Exception {
-		XStream xstream = new XStream();
 		xstream.toXML(contas, new FileOutputStream("C:/Users/Talles/Documents/pers.txt"));
 	}
 
 	@Override
 	public void desserializar() throws Exception {
-		XStream xstream = new XStream();
-		contas = (Vector) xstream.fromXML(new FileInputStream("C:/Users/Talles/Documents/pers.txt"));
+		this.contas = (Vector) xstream.fromXML(new FileInputStream("C:/Users/Talles/Documents/pers.txt"));
 	}
 
 }

@@ -36,10 +36,11 @@ public class BancoBrasil {
 			this.repositorio.apagar(numero);
 		}
 
-		public void creditar(String numConta, double valor) throws TNRException, VNException {
+		public void creditar(String numConta, double valor) throws Exception {
 			ContaAbstrata conta = this.repositorio.procurar(numConta);
 			if (conta != null) {
 				conta.creditar(valor);
+				this.repositorio.serializar();
 			} else {
 				throw new TNRException(new CIException(numConta));
 			}
@@ -51,7 +52,8 @@ public class BancoBrasil {
 			if (conta != null) {
 				try {
 					conta.debitar(valor);
-				} catch (SIException sie) {
+					this.repositorio.serializar();
+				} catch (Exception sie) {
 					throw new TNRException(sie);
 				}
 			} else {
@@ -78,7 +80,8 @@ public class BancoBrasil {
 					try {
 						contaOrigem.debitar(valor);
 						contaDestino.creditar(valor);
-					} catch (SIException sie) {
+						this.repositorio.serializar();
+					} catch (Exception sie) {
 						throw new TNRException(sie);
 					}
 				} else {
@@ -90,11 +93,12 @@ public class BancoBrasil {
 
 		}
 
-		public void renderJuros(String numConta) throws TNRException, VNException {
+		public void renderJuros(String numConta) throws Exception {
 			ContaAbstrata contaAuxiliar = this.repositorio.procurar(numConta);
 			if (contaAuxiliar != null) {
 				if (contaAuxiliar instanceof ContaPoupanca) {
 					((ContaPoupanca) contaAuxiliar).rendeJuros(this.taxa);
+					this.repositorio.serializar();
 				} else {
 					throw new TNRException(new TCIException(numConta));
 				}
@@ -103,11 +107,12 @@ public class BancoBrasil {
 			}
 		}
 
-		public void renderBonus(String numConta) throws TNRException, VNException {
+		public void renderBonus(String numConta) throws Exception {
 			ContaAbstrata contaAuxiliar = this.repositorio.procurar(numConta);
 			if (contaAuxiliar != null) {
 				if (contaAuxiliar instanceof ContaEspecial) {
 					((ContaEspecial) contaAuxiliar).rendeBonus();
+					this.repositorio.serializar();
 				} else {
 					throw new TNRException(new TCIException(numConta));
 				}
