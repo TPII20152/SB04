@@ -1,6 +1,5 @@
 package br.ufc.banco.bb;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.sun.xml.internal.ws.api.server.Container;
-
 import br.ufc.banco.bb.excecoes.TNRException;
 import br.ufc.banco.conta.Conta;
 import br.ufc.banco.conta.ContaAbstrata;
@@ -22,7 +19,6 @@ import br.ufc.banco.conta.ContaEspecial;
 import br.ufc.banco.conta.ContaImposto;
 import br.ufc.banco.conta.ContaPoupanca;
 import br.ufc.banco.conta.excecoes.VNException;
-import br.ufc.banco.dados.ArrayContas;
 import br.ufc.banco.dados.VectorContas;
 import br.ufc.banco.dados.excecoes.CEException;
 import br.ufc.banco.dados.excecoes.CIException;
@@ -41,7 +37,7 @@ public class GuiBank implements ActionListener{
 	private JButton btnSair;
 	private JFrame menu;
 	
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws Exception {
 		GuiBank gui = new GuiBank();
 		
 		gui.mostrarEntrada();
@@ -52,7 +48,7 @@ public class GuiBank implements ActionListener{
 		
 		JFrame entrada = new JFrame("BuggBank");
 		JLabel jLImage = new JLabel();
-		jLImage.setIcon(new ImageIcon("C:/Users/Talles/Documents/git/teste/SistemaBancario/persContas/GuiBank-1.png"));
+		jLImage.setIcon(new ImageIcon("C:/Users/Talles/Documents/GuiBank-1.png"));
 		entrada.add(jLImage);
 		entrada.setSize(500, 500);
 		entrada.setLocationRelativeTo(null);
@@ -61,7 +57,7 @@ public class GuiBank implements ActionListener{
 		entrada.dispose();
 	}
 	
-	public void menuPrincipal(){
+	public void menuPrincipal() throws Exception{
 		banco = new BancoBrasil(new VectorContas());
 		menu = new JFrame();
 		menu.setSize(200, 200);
@@ -135,95 +131,130 @@ public class GuiBank implements ActionListener{
 			if(btn == btnAdicionar){
 				ContaAbstrata conta = null;
 				String[] tipos = {"Conta Normal", "Conta Poupanca", "Conta Especial", "Conta Imposto"};
-				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta", "Adicionar Conta", JOptionPane.PLAIN_MESSAGE, null, tipos, "no");
-					
-				if(numConta.equals("Conta Normal")){
-					conta = new Conta((String) JOptionPane.showInputDialog(null, "Insira o numero da conta"));
-				}
-				if(numConta.equals("Conta Imposto")){
-					conta = new ContaImposto((String) JOptionPane.showInputDialog(null, "Insira o numero da conta"));
-				}
-				if(numConta.equals("Conta Especial")){
-					conta = new ContaEspecial((String) JOptionPane.showInputDialog(null, "Insira o numero da conta"));
-				}
-				if(numConta.equals("Conta Poupanca")){
-					conta = new ContaPoupanca((String) JOptionPane.showInputDialog(null, "Insira o numero da conta"));
-				}
-				System.out.println(numConta + " e " + conta.obterNumero());
-				if (conta != null) {
-					try {
-						banco.cadastrar(conta);
-						JOptionPane.showMessageDialog(null, "Operação realizada.");
-					} catch (CEException cjee) {
-						JOptionPane.showMessageDialog(null,"Erro: " + cjee.getMessage());
+				String tipoConta = (String) JOptionPane.showInputDialog(null, "Selecione o tipo de conta:", "Adicionar Conta", JOptionPane.PLAIN_MESSAGE, null, tipos, "no");
+				if(tipoConta != null){	
+					String numConta = null;
+					if(tipoConta.equals("Conta Normal")){
+						numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
+						conta = new Conta(numConta);
+					}
+					if(tipoConta.equals("Conta Imposto")){
+						numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
+						conta = new ContaImposto(numConta);
+					}
+					if(tipoConta.equals("Conta Especial")){
+						numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
+						conta = new ContaEspecial(numConta);
+					}
+					if(tipoConta.equals("Conta Poupanca")){
+						numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
+						conta = new ContaPoupanca(numConta);
+					}
+					if (numConta != null) {
+						try {
+							banco.cadastrar(conta);
+							JOptionPane.showMessageDialog(null, "Operação realizada.");
+						} catch (CEException cjee) {
+							JOptionPane.showMessageDialog(null,"Erro: " + cjee.getMessage());
+						}
 					}
 				}
-				
 			}
 			if(btn == btnDeposito){
-				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				double valorDeposito = Double.parseDouble((String)JOptionPane.showInputDialog(null, "Insira o vlor a ser depositado:"));
-				try {
-					banco.creditar(numConta, valorDeposito);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (TNRException | VNException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+				String numConta = null;
+				numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
+				if(numConta != null){
+					String valorDepositoStr = null;
+					valorDepositoStr = (String)JOptionPane.showInputDialog(null, "Insira o vlor a ser depositado:");
+					if(valorDepositoStr != null || "".equals(valorDepositoStr)){
+						Double valorDeposito = Double.parseDouble(valorDepositoStr);
+						try {
+							banco.creditar(numConta, valorDeposito);
+							JOptionPane.showMessageDialog(null, "Operação realizada.");
+						} catch (TNRException | VNException tnre) {
+							JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+						} catch (Exception e1) {
+							
+						}
+					}
 				}
 			}
 			if(btn == btnSaque){
 				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				double valorSaque = Double.parseDouble((String)JOptionPane.showInputDialog(null, "Insira o vlor a ser depositado:"));
-				try {
-					banco.debitar(numConta, valorSaque);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (TNRException | VNException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+				if(numConta != null){
+					String valorSaqueStr = (String)JOptionPane.showInputDialog(null, "Insira o vlor a ser depositado:");
+					if(valorSaqueStr != null){
+						Double valorSaque = Double.parseDouble(valorSaqueStr);
+						try {
+							banco.debitar(numConta, valorSaque);
+							JOptionPane.showMessageDialog(null, "Operação realizada.");
+						} catch (TNRException | VNException tnre) {
+							JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+						}
+					}
 				}
 			}
 			if(btn == btnTransferencia){
 				String numContaOrigem = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta(Origem)");
-				String numContaDestino = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta(Destino)");
-				double valorTransferencia = Double.parseDouble((String)JOptionPane.showInputDialog(null, "Insira o valor a transferir:"));
-				try {
-					banco.transferir(numContaOrigem, numContaDestino, valorTransferencia);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (TNRException | VNException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+				if(numContaOrigem != null){
+					String numContaDestino = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta(Destino)");
+					if(numContaDestino != null){
+						String valorTransferenciaStr = (String)JOptionPane.showInputDialog(null, "Insira o valor a transferir:");
+						if(valorTransferenciaStr != null){
+							Double valorTransferencia = Double.parseDouble(valorTransferenciaStr);
+							try {
+								banco.transferir(numContaOrigem, numContaDestino, valorTransferencia);
+								JOptionPane.showMessageDialog(null, "Operação realizada.");
+							} catch (TNRException | VNException tnre) {
+								JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+							}
+						}
+					}
 				}
-				
 			}
 			if(btn == btnExcluir){
 				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				try {
-					banco.remover(numConta);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (CIException cnee) {
-					JOptionPane.showMessageDialog(null,"Erro: " + cnee.getMessage());
+				if(numConta != null){
+					try {
+						banco.remover(numConta);
+						JOptionPane.showMessageDialog(null, "Operação realizada.");
+					} catch (CIException cnee) {
+						JOptionPane.showMessageDialog(null,"Erro: " + cnee.getMessage());
+					}
 				}
 			}
 			if(btn == btnSaldo){
 				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				try {
-					JOptionPane.showMessageDialog(null, "Conta: " + numConta + "\nSaldo: " + banco.saldo(numConta));
-				} catch (TNRException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());				}
+				if(numConta != null){
+					try {
+						JOptionPane.showMessageDialog(null, "Conta: " + numConta + "\nSaldo: " + banco.saldo(numConta));
+					} catch (TNRException tnre) {
+						JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+					}
+				}
 			}
 			if(btn == btnJuros){
 				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				try {
-					banco.renderJuros(numConta);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (TNRException | VNException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+				if(numConta != null){
+					try {
+						banco.renderJuros(numConta);
+						JOptionPane.showMessageDialog(null, "Operação realizada.");
+					} catch (TNRException | VNException tnre) {
+						JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+					} catch (Exception e1) {
+						
+					}
 				}
 			}
 			if(btn == btnBonus){
 				String numConta = (String) JOptionPane.showInputDialog(null, "Insira o numero da conta");
-				try {
-					banco.renderBonus(numConta);
-					JOptionPane.showMessageDialog(null, "Operação realizada.");
-				} catch (TNRException | VNException tnre) {
-					JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+				if(numConta != null){
+					try {
+						banco.renderBonus(numConta);
+						JOptionPane.showMessageDialog(null, "Operação realizada.");
+					} catch (Exception tnre) {
+						JOptionPane.showMessageDialog(null,"Erro: " + tnre.getMessage());
+					}
 				}
 			}
 			if(btn == btnSair){
